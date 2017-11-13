@@ -2,9 +2,13 @@
 
 ## Pointers
 In order to update variables, you set pointers! 
-Create a new object (geometry or laser).2.
- 
-Select all the script in either onCollide, onHitByLaser or onLaserHit.3.
+
+When set a global variable, anywhere in the file you can access that global variable. Pointers - permanence and the object's specific memory address - so you can update the value. 
+
+
+1. Create a new object (geometry or laser)
+
+2.Select all the script in either onCollide, onHitByLaser or onLaserHit.3.
  
 Type a beginning bracket ("(").4.
  
