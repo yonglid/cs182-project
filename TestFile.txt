@@ -1,9 +1,3 @@
 
-xFor = (n1, n2, code) => {
-  n2 > n1 ? {
-    m := (n1 + n2) / 2;
-    scene.my.xFor(n1, m, code);
-    scene.my.xFor(m + 1, n2, code)
-  } : {code(n1)}
-};
-xfor(0,5,(i)=>{print (i)});
+Reflection.ExecuteFile("Library.txt");
+for(0,5,(i)=>{print (i)});
