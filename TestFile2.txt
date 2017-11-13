@@ -1,0 +1,3 @@
+
+Reflection.ExecuteFile("TestFile.txt");
+xfor(6,10,(i)=>{print (i)});
