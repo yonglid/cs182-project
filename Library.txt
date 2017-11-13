@@ -1,0 +1,12 @@
+
+while = (n1, n2, test, change, code) => {
+  test(n1, n2) ? {
+    code(n1);
+    n1 := change(n1);
+    while(n1, n2, test, change, code);
+  } : {}
+};
+
+for = (n1, n2, code) => {
+  while(n1, n2, (i, j) => {i <= j}, (i) => {i+1}, code);
+};
