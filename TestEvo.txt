@@ -1,0 +1,43 @@
+
+Reflection.ExecuteFile("Library.txt");
+
+initializeRobots = () => {
+  myRobots = [];
+  for(0, 19, (i, j) => {
+    myRobots = myRobots ++ [[randomInt(0,10),randomInt(0,10),randomInt(0,10)]]
+  });
+  myRobots;
+};
+
+robotUtilities = (myRobots) => {
+  utilityValues = [];
+  for(0, string.length(myRobots)-1, (i, h) => {
+    utilityValue = 1;
+    for(0, string.length(myRobots(i))-1, (j, k) => {
+      utilityValue = utilityValue * myRobots(i)(j);
+    });
+    utilityValues = utilityValues ++ [[utilityValue, i]];
+  });
+  utilityValues;
+};
+
+orderByUtilities = (myRobots, robotUtilities) => {
+  robotUtilities = mergeSort(robotUtilities);
+  orderedRobots = [];
+  for(0, string.length(myRobots)-1, (i, j) => {
+    orderedRobots = orderedRobots ++ myRobots(robotUtilities(i)(1));
+  });
+  orderedRobots;
+}
+
+myRobots = initializeRobots;
+robotUtilities = robotUtilities(myRobots);
+threshold = 900;
+while(robotUtilities,threshold,(i, j) => {average(robotUtilities) < threshold}, (i, j) => {
+  orderedRobots = orderByUtilities(myRobots, robotUtilities);
+  newParents = subArray(0, math.toInt(string.length(myRobots)/3), orderedRobots);
+  myRobots = geneticCrossover(newParents);
+  robotUtilities = robotUtilities(myRobots);
+}, (i) => {robotUtilities;});
+print(myRobots);
+print(robotUtilities);
