@@ -41,3 +41,6 @@ Scene.RemoveEntity (Scene.entityByID (225))
 /Scene.-some string - 
 
 It'll look up the commands that are spelled this way 
+
+# access console in program 
+- press the keyboard key with "~" 
