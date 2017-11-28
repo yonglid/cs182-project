@@ -1,12 +1,63 @@
 
-while = (n1, n2, test, change, code) => {
+while = (n1, n2, test, code, change) => {
   test(n1, n2) ? {
-    code(n1);
-    n1 := change(n1);
-    while(n1, n2, test, change, code);
+    code(n1, n2);
+    n1_new = change(n1);
+    while(n1_new, n2, test, code, change);
   } : {}
 };
 
 for = (n1, n2, code) => {
-  while(n1, n2, (i, j) => {i <= j}, (i) => {i+1}, code);
+  while(n1, n2, (i, j) => {i <= j}, code, (i) => {i+1});
 };
+
+randomInt = (min, max) => {
+  min+math.toInt(rand.uniform01*(max-min)+.5);
+};
+
+subArray = (start, end, array) => {
+  newArray = [];
+  for(start, end, (i, j) => {
+    newArray = newArray ++ [array(i)];
+  });
+  newArray;
+};
+
+mergeOrder = (array1, array2) => {
+  pos1 = 0;
+  pos2 = 0;
+  mergedArray = [];
+  while([pos1,pos2], [string.length(array1),string.length(array2)], (i, j) => {i(0) < j(0) || i(1) < j(1)}, (i, j) => {
+    i(0) == j(0) ? {
+      mergedArray = mergedArray ++ [array2(i(1))];
+      pos2 = pos2+1;
+    } : {
+      i(1) == j(1) ? {
+        mergedArray = mergedArray ++ [array1(i(0))];
+        pos1 = pos1+1;
+      } : {
+        array1(i(0)) < array2(i(1)) ? {
+          mergedArray = mergedArray ++ [array1(i(0))];
+          pos1 = pos1+1;
+        } : {
+          mergedArray = mergedArray ++ [array2(i(1))];
+          pos2 = pos2+1;
+        }
+      }
+    }
+  }, (i) => {[pos1,pos2]});
+  mergedArray;
+};
+
+mergeSort = (array) => {
+  string.length(array) > 1 ? {
+    subArray1 = subArray(0, math.toInt(string.length(array)/2)-1, array);
+    subArray2 = subArray(math.toInt(string.length(array)/2), string.length(array)-1, array);
+    orderedArray = mergeOrder(mergeSort(subArray1),mergeSort(subArray2));
+    orderedArray;
+  } : {array;}
+};
+
+isArray = (input) => {
+  true;
+}

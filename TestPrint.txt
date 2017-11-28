@@ -1,6 +1,6 @@
-
 Reflection.ExecuteFile("cs182-project/Library.txt");
 Scene.my.speed=2;
 Scene.my.outfile="asdfghjkl.txt";
 System.WriteToFile(Scene.my.outfile, "HELLO");
 for(0,5,(i)=>{print (i)});
+

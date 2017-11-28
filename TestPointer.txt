@@ -1,0 +1,6 @@
+
+Reflection.ExecuteFile("Library.txt");
+radiusVar = 5;
+myCircle = scene.addCircle{radius = {radiusVar}};
+myCircle2 = scene.addCircle{radius = radiusVar};
+radiusVar = 10;
