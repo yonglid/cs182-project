@@ -36,3 +36,8 @@ Press Enter
 
 # remove entity
 Scene.RemoveEntity (Scene.entityByID (225)) 
+
+# search for commands
+/Scene.-some string - 
+
+It'll look up the commands that are spelled this way 
