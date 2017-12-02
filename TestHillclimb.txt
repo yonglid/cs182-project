@@ -380,6 +380,7 @@ getNeighbors = () => {
     Scene.my.results = [];
     Scene.my.neighbor_idx = 0;
     Scene.my.n_neighbors = string.length(neighbors);
+}; 
 
 
 tryNeighbor = () => {
