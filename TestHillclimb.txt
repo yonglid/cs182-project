@@ -1,4 +1,4 @@
-Reflection.ExecuteFile("cs182-project/Library.txt");
+Reflection.ExecuteFile("library.txt");
 
 Scene.my.deltaNeighbor = 0.1;
 Scene.my.testTime = 10;
@@ -12,9 +12,10 @@ Scene.my.neighbor_idx = 0;
 Scene.my.n_neighbors = 2;
     
 
+
 initializeCart = () => {
     Scene.my.current_cart = [];
-    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.addCircle {
+    first = Scene.addCircle {
         inertiaMultiplier := 1.0000000;
         resources := [];
         timeToLive := +inf;
@@ -72,8 +73,11 @@ initializeCart = () => {
         angle := -0.71976984;
         zDepth := 5.0000000;
         layer := 0
-    }];
-    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.addCircle {
+    };
+    Scene.my.firstCircle = {first};
+    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.my.firstCircle];
+    
+    second = Scene.addCircle {
         inertiaMultiplier := 1.0000000;
         resources := [];
         timeToLive := +inf;
@@ -131,8 +135,12 @@ initializeCart = () => {
         angle := -0.65428978;
         zDepth := 6.0000000;
         layer := 0
-    }];
-    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.addBox {
+    };
+    Scene.my.secondCircle = {second};
+
+    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.my.secondCircle];
+    
+    box = Scene.addBox {
         inertiaMultiplier := 1.0000000;
         resources := [];
         timeToLive := +inf;
@@ -195,7 +203,9 @@ initializeCart = () => {
         angle := -0.025060110;
         zDepth := 7.0000000;
         layer := 0
-    }];
+    };
+    Scene.my.box = {box};
+    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.my.box];
     Scene.addHinge {
         geom0 := 2399;
         geom0pos := [-1.0366625, 0.011373233];
@@ -324,6 +334,7 @@ initializeTimer = () => {
         onDie := (e)=>{
             deleteCart;
             initializeTimer;
+            
         };
         density := 2.0000000;
         airFrictionMult := 1.0000000;
@@ -362,6 +373,7 @@ tryNeighbor = () => {
     Scene.my.current_Speed = Scene.my.neighbors(i);
     initializeCart; 
     Scene.my.neighbor_idx = Scene.my.neighbor_idx + 1;
+
 };
 
 initializeCart;
