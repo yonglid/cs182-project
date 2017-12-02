@@ -1,6 +1,6 @@
 Reflection.ExecuteFile("cs182-project/Library.txt");
 
-Scene.my.deltaNeighbor = 0.1;
+Scene.my.deltaNeighbor = 0.8;
 Scene.my.testTime = 10;
 Scene.my.timerTime = 5;
 
@@ -10,11 +10,13 @@ Scene.my.bestTime = 99999;
 Scene.my.results = [];
 Scene.my.neighbor_idx = 0;
 Scene.my.n_neighbors = 2;
+
+
     
 
 initializeCart = () => {
     Scene.my.current_cart = [];
-    Scene.my.current_cart = Scene.my.current_cart ++ [Scene.addCircle {
+    first = Scene.addCircle {
         inertiaMultiplier := 1.0000000;
         resources := [];
         timeToLive := +inf;
@@ -72,7 +74,9 @@ initializeCart = () => {
         angle := -0.71976984;
         zDepth := 5.0000000;
         layer := 0
-    }];
+    };
+    Scene.my.current_cart = Scene.my.current_cart ++ [first];
+    Scene.my.first = {first};
     Scene.my.current_cart = Scene.my.current_cart ++ [Scene.addCircle {
         inertiaMultiplier := 1.0000000;
         resources := [];
@@ -314,7 +318,6 @@ initializeTimer = () => {
         color := [0.76977146, 0.43063679, 0.18136889, 1.0000000];
         collideWater := true;
         onSpawn := (e)=>{
-            getNeighbors;
             tryNeighbor;
         };
         materialName := "";
@@ -322,6 +325,16 @@ initializeTimer = () => {
         drawCake := true;
         pos := [2, 3];
         onDie := (e)=>{
+            Scene.my.results = Scene.my.results ++ [Scene.my.first.pos(0)];
+            print(Scene.my.first.pos(0));
+            print("Scene.my.neighbor_idx");
+            print(Scene.my.neighbor_idx);
+            print("Scene.my.n_neighbors");
+            print(Scene.my.n_neighbors);
+            (Scene.my.neighbor_idx < Scene.my.n_neighbors) ? {} : {              
+                chooseBestNeighbor;
+                getNeighbors;
+            };
             deleteCart;
             initializeTimer;
         };
@@ -347,22 +360,43 @@ initializeTimer = () => {
 };
 
 getNeighbors = () => {
+    print("getNeighbors");
     neighbors = [];
     neighbors = neighbors ++ [Scene.my.currentSpeed + Scene.my.deltaNeighbor];
     neighbors = neighbors ++ [Scene.my.currentSpeed - Scene.my.deltaNeighbor];
+    print("neighbors");
+    print(neighbors(0));
+    print(neighbors(1));
     Scene.my.neighbors = neighbors;
     Scene.my.results = [];
     Scene.my.neighbor_idx = 0;
-    Scene.my.n_neighbors = 2;
+    Scene.my.n_neighbors = string.length(neighbors);
 };
 
 tryNeighbor = () => {
+    print("tryNeighbor");
     i = Scene.my.neighbor_idx;
     deleteCart;
-    Scene.my.current_Speed = Scene.my.neighbors(i);
+    Scene.my.currentSpeed = Scene.my.neighbors(i);
+    print(Scene.my.currentSpeed);
     initializeCart; 
     Scene.my.neighbor_idx = Scene.my.neighbor_idx + 1;
 };
 
+chooseBestNeighbor = () => {
+    bestNeighbor = Scene.my.neighbors(0);
+    bestResult = Scene.my.results(0);
+    for (1, string.length(Scene.my.neighbors), (i, j) => {
+        neighbor = Scene.my.neighbors(i);
+        result = Scene.my.results(i);
+        result < bestResult ? {
+            bestNeighbor = neighbor;
+            bestResult = result;
+        } : {};
+    });
+    Scene.my.currentSpeed = bestNeighbor;
+};
+
 initializeCart;
+getNeighbors;
 initializeTimer;
