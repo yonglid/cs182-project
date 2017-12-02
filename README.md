@@ -33,3 +33,14 @@ Type another ending curly bracket ("}").13.
 Check you haven't made any mistakes, it should look something like:(event)=>{Scene.my.Object = {event}}.14.
  
 Press Enter
+
+# remove entity
+Scene.RemoveEntity (Scene.entityByID (225)) 
+
+# search for commands
+/Scene.-some string - 
+
+It'll look up the commands that are spelled this way 
+
+# access console in program 
+- press the keyboard key with "~" 
