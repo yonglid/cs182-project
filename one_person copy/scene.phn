@@ -3,7 +3,7 @@
 
 FileInfo -> {
     title = "one_person";
-    author = "emily";
+    author = "Joe, Laura, Emily";
     version = 21
 };
 Sim -> {
