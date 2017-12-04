@@ -1,0 +1,66 @@
+
+Reflection.ExecuteFile("Library.txt");
+
+initializeRobots = () => {
+  myRobots = [];
+  for(0, 19, (i, j) => {
+    myRobots = myRobots ++ [[randomInt(1,50),randomInt(1,50),randomInt(1,50)]]
+  });
+  myRobots;
+};
+
+getRobotUtilities = (myRobots) => {
+  utilityValues = [];
+  for(0, string.length(myRobots)-1, (i, h) => {
+    utilityValue = 1;
+    for(0, string.length(myRobots(i))-1, (j, k) => {
+      utilityValue = utilityValue * myRobots(i)(j);
+    });
+    utilityValues = utilityValues ++ [[utilityValue, i]];
+  });
+  utilityValues;
+};
+
+geneticCrossover = (myRobots, robotUtilities) => {
+  newRobotU = mergeSort(robotUtilities);
+  newRobots = [];
+  newIdList = [0];
+  for(0, string.length(myRobots)-1, (i, j) => {
+    idList = newIdList;
+    curMin = [99999];
+    for(0, string.length(idList)-1, (k,l) => {
+      curMin(0) > newRobotU(k)(0) + newRobotU(idList(k))(0) ? {
+        curMin = [newRobotU(k)(0) + newRobotU(idList(k))(0), [k, idList(k)]];
+        newIdList = [];
+        for(0, string.length(idList)-1, (m,n) => {
+          m == k ? {
+            newIdList = newIdList ++ [idList(m)+1];
+          } : {
+            newIdList = newIdList ++ [idList(m)];
+          };
+        });
+        k == l ? {
+          idList(k) > k ? {
+            newIdList = newIdList ++ [k+1];
+          } : {};
+        } : {};
+      } : {};
+    });
+    parent1 = myRobots(newRobotU(curMin(1)(0))(1));
+    parent2 = myRobots(newRobotU(curMin(1)(1))(1));
+    newBot = [];
+    for(0, string.length(parent1)-1, (k, l) => {
+      randomInt(0,4) == 0 ? {
+        newBot = newBot ++ [randomInt(1,50)];
+      } : {
+        randomInt(0,1) == 0 ? {
+          newBot = newBot ++ [parent1(k)];
+        } : {
+          newBot = newBot ++ [parent2(k)];
+        };
+      };
+    });
+    newRobots = newRobots ++ [newBot];
+  });
+  newRobots;
+};

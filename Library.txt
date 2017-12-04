@@ -1,20 +1,27 @@
 
+// A while loop; n1 represents current entry, n2 represents limit,
+// test represents test condition, code represents stuff to do,
+// change represents change to n1 each iteration
 while = (n1, n2, test, code, change) => {
   test(n1, n2) ? {
     code(n1, n2);
     n1_new = change(n1);
     while(n1_new, n2, test, code, change);
-  } : {}
+  } : {};
 };
 
+// A for loop; n1 represents current entry, n2 represents limit,
+// code represents stuff to do
 for = (n1, n2, code) => {
   while(n1, n2, (i, j) => {i <= j}, code, (i) => {i+1});
 };
 
+// Generate a random number between min and max inclusive
 randomInt = (min, max) => {
   min+math.toInt(rand.uniform01*(max-min)+.5);
 };
 
+// Get a sub array of an array from index start to end inclusive
 subArray = (start, end, array) => {
   newArray = [];
   for(start, end, (i, j) => {
@@ -23,6 +30,49 @@ subArray = (start, end, array) => {
   newArray;
 };
 
+// Test to see if member is an element in array
+arrayMembership = (array, member) => {
+  isMember = false;
+  for(0, string.length(array)-1, (i,j) => {
+    isMember = isMember || array(i) == member;
+  });
+  isMember;
+};
+
+// Test to see how many dimensions array has; must be initialized
+// with a 1 for dimensionality
+arrayDimensionality = (array, dimensionality) => {
+  stringOfArray = string.list2str(array);
+  arrayOfString = string.str2list(stringOfArray);
+  character = arrayOfString(0);
+  dimensionalityFinal = dimensionality;
+  character == "[" ? {
+    dimensionalityFinal = arrayDimensionality(array(0), dimensionality+1);
+  } : {};
+  dimensionalityFinal;
+};
+
+// Gets sum of array
+sum = (array) => {
+  mySum = 0;
+  dimensionality = arrayDimensionality(array, 1);
+  for(0, string.length(array) - 1, (i, j)=> {
+    dimensionality == 1 ? {
+      mySum = mySum + array(i);
+    } : {
+      mySum = mySum + array(i)(0);
+    };
+  });
+  mySum;
+};
+
+// Gets average (float) of array of numbers
+average = (array) => {
+  averageNum = sum(array) * 1. / string.length(array);
+  averageNum;
+};
+
+// Helper function for merge sort that merges two ordered 1d arrays
 mergeOrder = (array1, array2) => {
   pos1 = 0;
   pos2 = 0;
@@ -42,22 +92,51 @@ mergeOrder = (array1, array2) => {
         } : {
           mergedArray = mergedArray ++ [array2(i(1))];
           pos2 = pos2+1;
-        }
-      }
-    }
+        };
+      };
+    };
   }, (i) => {[pos1,pos2]});
   mergedArray;
 };
 
+// Helper function for merge sort that merges two ordered nd arrays
+mergeOrderNd = (array1, array2) => {
+  pos1 = 0;
+  pos2 = 0;
+  mergedArray = [];
+  while([pos1,pos2], [string.length(array1),string.length(array2)], (i, j) => {i(0) < j(0) || i(1) < j(1)}, (i, j) => {
+    i(0) == j(0) ? {
+      mergedArray = mergedArray ++ [array2(i(1))];
+      pos2 = pos2+1;
+    } : {
+      i(1) == j(1) ? {
+        mergedArray = mergedArray ++ [array1(i(0))];
+        pos1 = pos1+1;
+      } : {
+        array1(i(0))(0) < array2(i(1))(0) ? {
+          mergedArray = mergedArray ++ [array1(i(0))];
+          pos1 = pos1+1;
+        } : {
+          mergedArray = mergedArray ++ [array2(i(1))];
+          pos2 = pos2+1;
+        };
+      };
+    };
+  }, (i) => {[pos1,pos2]});
+  mergedArray;
+};
+
+// Merge sort on array
 mergeSort = (array) => {
   string.length(array) > 1 ? {
     subArray1 = subArray(0, math.toInt(string.length(array)/2)-1, array);
     subArray2 = subArray(math.toInt(string.length(array)/2), string.length(array)-1, array);
-    orderedArray = mergeOrder(mergeSort(subArray1),mergeSort(subArray2));
+    orderedArray = [];
+    arrayDimensionality(array, 1) == 1 ? {
+      orderedArray = mergeOrder(mergeSort(subArray1), mergeSort(subArray2));
+    } : {
+      orderedArray = mergeOrderNd(mergeSort(subArray1), mergeSort(subArray2));
+    };
     orderedArray;
   } : {array;}
 };
-
-isArray = (input) => {
-  true;
-}
