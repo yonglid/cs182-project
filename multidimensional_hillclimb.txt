@@ -38,7 +38,7 @@ initializeWalkerPerson = () => {
         adhesion := 0.0000000;
         attractionType := 2;
         attraction := 0.0000000;
-        texture := "";
+        texture := "scottsface.jpeg";
         update := (e)=>{};
         controllerInvertX := false;
         controllerInvertY := false;

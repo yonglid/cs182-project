@@ -1,0 +1,20 @@
+
+Reflection.ExecuteFile("EvoLibrary.txt");
+
+myRobots = initializeRobots;
+robotUtilities = getRobotUtilities(myRobots);
+threshold = 15;
+generations = 0;
+myAverage = average(robotUtilities);
+while(robotUtilities,threshold,(i, j) => {
+  myAverage > threshold;
+}, (i, j) => {
+  myRobots = geneticCrossover(myRobots, robotUtilities);
+  generations = generations + 1;
+  robotUtilities = getRobotUtilities(myRobots);
+  myAverage = average(robotUtilities);
+}, (i) => {});
+print(myRobots);
+print(robotUtilities);
+print(myAverage);
+print(generations);
