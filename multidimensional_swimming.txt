@@ -1,20 +1,36 @@
-Reflection.ExecuteFile("library.txt");
+Reflection.ExecuteFile("cs182-project/Library.txt");
 
-Scene.my.deltaNeighbor = 0.8;
+Scene.my.deltaSpeed = 0;
+Scene.my.deltaTorque = 5000;
+Scene.my.deltaPeriod = 0.5;
+
 Scene.my.testTime = 10;
 Scene.my.timerTime = 5;
 
-Scene.my.currentSpeed = 1;
+
 Scene.my.bestTime = 99999;
 
 Scene.my.results = [];
 Scene.my.neighbor_idx = 0;
-Scene.my.n_neighbors = 2;
+Scene.my.n_neighbors = 64;
+
+Scene.my.sms = 0; //5.2359877;
+Scene.my.smt = 10000;
+Scene.my.hms = 0; //1.5707964;
+Scene.my.hmt = 10000;
+Scene.my.hmp = 0.3; 
+// also kmp
+Scene.my.kms = 0; //1.5707964;
+Scene.my.kmt = 10000;
+
+Scene.my.parameters = [Scene.my.sms, Scene.my.smt, Scene.my.hms, Scene.my.hmt, Scene.my.kms, Scene.my.kmt];
+Scene.my.deltas = [Scene.my.deltaSpeed, Scene.my.deltaTorque, Scene.my.deltaSpeed, Scene.my.deltaTorque, Scene.my.deltaSpeed, Scene.my.deltaTorque];
 
 // Variables: Shoulder motor speed, shoulder motor torque, hip motor speed, hip motor torque, hip motor period,
 // knee motor speed, knee motor torque, knee motor period
 // can just pass in global variables as input, don't necessarily need the below variables
-// possible inputs/parameters: sms, smt, hms, hmt, hmp, kms, kmt, kmp
+// possible inputs/parameters: sms, smt, hms, hmt, hmp, kms, kmt
+//initializePerson = (sms, smt, hms, hmt, hmp, kms, kmt) => {
 initializePerson = () => {
 	Scene.my.current_person = []; 
 	
@@ -658,6 +674,7 @@ initializePerson = () => {
 	    layer := 0
 	}];
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addPolygon {
+
 	    surfaces := [[[-0.074982561, -0.037450880], [-0.066234469, -0.037450880], [-0.057486374, -0.037450880], [-0.048738278, -0.037450880], [-0.039990187, -0.037450880], [-0.039964352, -0.036102742], [-0.039830476, -0.034144014], [-0.039600644, -0.032194212], [-0.039275423, -0.030258041], [-0.038855579, -0.028340153], [-0.038342144, -0.026445180], [-0.037736345, -0.024577688], [-0.037039638, -0.022742162], [-0.036253709, -0.020943042], [-0.035380449, -0.019184640], [-0.034421958, -0.017471218], [-0.033380542, -0.015806878], [-0.032258723, -0.014195651], [-0.031059194, -0.012641413], [-0.029784843, -0.011147898], [-0.028438753, -0.0097187161], [-0.027024150, -0.0083572976], [-0.025544450, -0.0070669409], [-0.024003219, -0.0058507286], [-0.022404172, -0.0047116205], [-0.020751156, -0.0036523454], [-0.019048147, -0.0026754476], [-0.017299267, -0.0017832965], [-0.015508708, -0.00097802654], [-0.013680796, -0.00026158988], [-0.011819941, 0.00036428869], [-0.0099306023, 0.00089811534], [-0.0080173584, 0.0013385862], [-0.0060847956, 0.0016846508], [-0.0041375863, 0.0019354671], [-0.0021804101, 0.0020904467], [-0.00021799412, 0.0021491945], [0.0017449396, 0.0021115877], [0.0037036748, 0.0019777045], [0.0056534684, 0.0017478764], [0.0075896480, 0.0014226511], [0.0095075266, 0.0010028109], [0.011402502, 0.00048937649], [0.013269999, -0.00011642277], [0.015105521, -0.00081313029], [0.016904648, -0.0015990622], [0.018663041, -0.0024723187], [0.020376468, -0.0034308098], [0.022040803, -0.0044722222], [0.023652034, -0.0055940449], [0.025206275, -0.0067935754], [0.026699787, -0.0080679227], [0.028128974, -0.0094140172], [0.029490383, -0.010828614], [0.030780746, -0.012308318], [0.031996947, -0.013849545], [0.033136059, -0.015448598], [0.034195337, -0.017101618], [0.035172231, -0.018804619], [0.036064386, -0.020553501], [0.036869649, -0.022344057], [0.037586089, -0.024171969], [0.038211968, -0.026032832], [0.038745794, -0.027922165], [0.039186265, -0.029835410], [0.039532330, -0.031767972], [0.039783150, -0.033715181], [0.039938122, -0.035672352], [0.039991371, -0.037450880], [0.048742436, -0.037450880], [0.057493497, -0.037450880], [0.066244557, -0.037450880], [0.074995622, -0.037450880], [0.074887998, -0.033856217], [0.074597426, -0.030186519], [0.074127138, -0.026535500], [0.073478274, -0.022911949], [0.072652377, -0.019324614], [0.071651466, -0.015782116], [0.070477940, -0.012292992], [0.069134615, -0.0088656563], [0.067624740, -0.0055083670], [0.065951958, -0.0022292100], [0.064120278, 0.00096391886], [0.062134124, 0.0040633306], [0.059998289, 0.0070615485], [0.057717904, 0.0099513642], [0.055298477, 0.012725800], [0.052745834, 0.015378166], [0.050066113, 0.017902099], [0.047265776, 0.020291500], [0.044351570, 0.022540614], [0.041330513, 0.024644036], [0.038209889, 0.026596677], [0.034997206, 0.028393846], [0.031700224, 0.030031208], [0.028326865, 0.031504836], [0.024885260, 0.032811154], [0.021383701, 0.033947032], [0.017830623, 0.034909729], [0.014234601, 0.035696927], [0.010604266, 0.036306713], [0.0069483980, 0.036737647], [0.0032757700, 0.036988672], [-0.00040473096, 0.037059192], [-0.0040842597, 0.036949027], [-0.0077539687, 0.036658455], [-0.011404980, 0.036188167], [-0.015028536, 0.035539296], [-0.018615872, 0.034713406], [-0.022158381, 0.033712495], [-0.025647489, 0.032538969], [-0.029074814, 0.031195644], [-0.032432120, 0.029685769], [-0.035711277, 0.028012987], [-0.038904414, 0.026181307], [-0.042003818, 0.024195161], [-0.045002028, 0.022059329], [-0.047891848, 0.019778941], [-0.050666280, 0.017359518], [-0.053318657, 0.014806859], [-0.055842582, 0.012127146], [-0.058231991, 0.0093268007], [-0.060481098, 0.0064126067], [-0.062584504, 0.0033915527], [-0.064537160, 0.00027092174], [-0.066334322, -0.0029417537], [-0.067971691, -0.0062387511], [-0.069445312, -0.0096121058], [-0.070751637, -0.013053719], [-0.071887508, -0.016555270], [-0.072850205, -0.020108340], [-0.073637396, -0.023704380], [-0.074247189, -0.027334699], [-0.074678130, -0.030990578], [-0.074929148, -0.034663193]]];
 	    inertiaMultiplier := 1.0000000;
 	    resources := [];
@@ -957,13 +974,14 @@ initializePerson = () => {
 	    polyTrans := [2.2418327, 0.0000000, 0.0000000, 2.2418327];
 	    polyMeshResolution := [256, 64]
 	}];
+	// top shoulder
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 	    geom0 := 2465691;
 	    geom0pos := [0.20228662, 0.00050889846];
 	    geom1 := 2465686;
 	    geom1pos := [-0.021896655, 0.11260045];
 	    color := [1.0000000, 0.0000000, 0.66666651, 0.0000000];
-	    motorTorque := 25258.807;
+	    motorTorque := {Scene.my.smt}; // 25258.807
 	    ccw := false;
 	    opaqueBorders := true;
 	    forceDirectSolve := false;
@@ -972,7 +990,7 @@ initializePerson = () => {
 	    bendTarget := NaN;
 	    allowDirectSolve := true;
 	    hingeConstant := NaN;
-	    motorSpeed := 5.2359877;
+	    motorSpeed := {Scene.my.sms}; // 5.2359877
 	    entityID := 2593;
 	    onSpawn := (e)=>{};
 	    autoBrake := false;
@@ -1031,13 +1049,14 @@ initializePerson = () => {
 	    layer := 0;
 	    totImp3 := [0.0000000, 0.0000000, 0.0000000]
 	}];
+	// bottom shoulder
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 	    geom0 := 2465688;
 	    geom0pos := [-0.20203370, 0.00017644282];
 	    geom1 := 2465686;
 	    geom1pos := [0.022149572, 0.11226799];
 	    color := [1.0000000, 0.0000000, 0.66666651, 0.0000000];
-	    motorTorque := 25258.807;
+	    motorTorque := {Scene.my.smt}; // 25258.807
 	    ccw := false;
 	    opaqueBorders := true;
 	    forceDirectSolve := false;
@@ -1046,7 +1065,7 @@ initializePerson = () => {
 	    bendTarget := NaN;
 	    allowDirectSolve := true;
 	    hingeConstant := NaN;
-	    motorSpeed := 3.1415927;
+	    motorSpeed := {Scene.my.sms};
 	    entityID := 2595;
 	    onSpawn := (e)=>{};
 	    autoBrake := false;
@@ -1179,13 +1198,14 @@ initializePerson = () => {
 	    layer := 0;
 	    totImp3 := [0.0000000, 0.0000000, 0.0000000]
 	}];
+	// bottom knee
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 		    geom0 := 2465687;
 		    geom0pos := [-0.20896566, -0.0011441282];
 		    geom1 := 2465697;
 		    geom1pos := [0.20661861, 0.0026753123];
 		    color := [1.0000000, 0.0000000, 0.66666651, 0.0000000];
-		    motorTorque := 2525.8806;
+		    motorTorque := {Scene.my.kmt}; //2525.8806
 		    ccw := false;
 		    opaqueBorders := true;
 		    forceDirectSolve := false;
@@ -1194,7 +1214,7 @@ initializePerson = () => {
 		    bendTarget := NaN;
 		    allowDirectSolve := true;
 		    hingeConstant := NaN;
-		    motorSpeed := 1.5707964;
+		    motorSpeed := {Scene.my.kms}; // 1.5707964
 		    entityID := 2599;
 		    onSpawn := (e)=>{};
 		    autoBrake := true;
@@ -1216,13 +1236,14 @@ initializePerson = () => {
 		    layer := 0;
 		    totImp3 := [0.0000000, 0.0000000, 0.0000000]
 		}];
+	// top knee
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 	    geom0 := 2465696;
 	    geom0pos := [-0.20896518, -0.0011436513];
 	    geom1 := 2465698;
 	    geom1pos := [0.20661837, 0.0026753179];
 	    color := [1.0000000, 0.0000000, 0.66666651, 0.0000000];
-	    motorTorque := 2525.8806;
+	    motorTorque := {Scene.my.kmt}; //2525.8806
 	    ccw := false;
 	    opaqueBorders := true;
 	    forceDirectSolve := false;
@@ -1231,7 +1252,7 @@ initializePerson = () => {
 	    bendTarget := NaN;
 	    allowDirectSolve := true;
 	    hingeConstant := NaN;
-	    motorSpeed := 1.5707964;
+	    motorSpeed := -1 * {Scene.my.kms}; // 1.5707964
 	    entityID := 2600;
 	    onSpawn := (e)=>{};
 	    autoBrake := true;
@@ -1253,13 +1274,14 @@ initializePerson = () => {
 	    layer := 0;
 	    totImp3 := [0.0000000, 0.0000000, 0.0000000]
 	}];
+	// bottom leg hip joint
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 	    geom0 := 2465697;
 	    geom0pos := [-0.19610703, 0.00087476708];
 	    geom1 := 2465686;
 	    geom1pos := [0.00087476708, -0.53248841];
 	    color := [1.0000000, 0.0000000, 0.66666651, 1.0000000];
-	    motorTorque := 2525.8806;
+	    motorTorque := {Scene.my.hmt}; // 25258.807
 	    ccw := false;
 	    opaqueBorders := true;
 	    forceDirectSolve := false;
@@ -1268,7 +1290,7 @@ initializePerson = () => {
 	    bendTarget := NaN;
 	    allowDirectSolve := true;
 	    hingeConstant := NaN;
-	    motorSpeed := 1.5707964;
+	    motorSpeed := {Scene.my.hms}; // 1.5707964
 	    entityID := 2601;
 	    onSpawn := (e)=>{};
 	    autoBrake := false;
@@ -1290,14 +1312,15 @@ initializePerson = () => {
 	    layer := 0;
 	    totImp3 := [0.0000000, 0.0000000, 0.0000000]
 	}];
+	// top leg hip joint
 	Scene.my.current_person = Scene.my.current_person ++[Scene.addHinge {
 	    geom0 := 2465698;
 	    geom0pos := [-0.19610727, 0.00087476184];
 	    geom1 := 2465697;
 	    geom1pos := [-0.19660491, 0.0013853766];
 	    color := [1.0000000, 0.0000000, 0.66666651, 0.0000000];
-	    motorTorque := 25258.807;
-	    ccw := false;
+	    motorTorque := {Scene.my.hmt}; // 25258.807
+	    ccw := true;
 	    opaqueBorders := true;
 	    forceDirectSolve := false;
 	    timeToLive := +inf;
@@ -1305,7 +1328,7 @@ initializePerson = () => {
 	    bendTarget := NaN;
 	    allowDirectSolve := true;
 	    hingeConstant := NaN;
-	    motorSpeed := 5.2359877;
+	    motorSpeed := {Scene.my.hms}; // 1.5707964
 	    entityID := 2602;
 	    onSpawn := (e)=>{};
 	    autoBrake := false;
@@ -1390,7 +1413,229 @@ initializePerson = () => {
 	    onClick := (e)=>{};
 	    layer := 0
 	}];
-
+	print("initializing");
 }; 
 
+deletePerson = () => {
+    for (0, string.length(Scene.my.current_person) - 1, (i, j) => {
+        Scene.removeEntity(Scene.my.current_person(i));
+    });
+};
+
+initializePeriodTimer = () => {
+	Scene.my.periodTimer = Scene.addCircle {
+        inertiaMultiplier := 1.0000000;
+        resources := [];
+        timeToLive := Scene.my.hmp;
+        textureClamped := [false, false];
+        adhesion := 0.00000000;
+        attractionType := 2;
+        attraction := 0.00000000;
+        texture := "";
+        update := (e)=>{};
+        controllerInvertX := false;
+        controllerInvertY := false;
+        showMomentum := false;
+        vel := [0, 0];
+        restitution := 0.50000000;
+        onCollide := (e)=>{};
+        killer := false;
+        materialVelocity := 0.00000000;
+        showForceArrows := false;
+        controllerReverseXY := false;
+        refractiveIndex := 1.5000000;
+        textureMatrix := [1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000];
+        protractor := false;
+        immortal := false;
+        area := 2.2698009;
+        collideSet := 1;
+        drawBorder := true;
+        reflectiveness := 1.0000000;
+        friction := 0.50000000;
+        entityID := 666;
+        velocityDamping := [0.00000000, 0.00000000, 0.00000000];
+        onClick := (e)=>{};
+        color := [0.76977146, 0.43063679, 0.18136889, 1.0000000];
+        collideWater := true;
+        onSpawn := (e)=>{
+        };
+        materialName := "";
+        onHitByLaser := (e)=>{};
+        drawCake := true;
+        pos := [-8, 1];
+        onDie := (e)=>{
+            Scene.my.hms = -1 * Scene.my.hms;
+            Scene.my.kms = -1 * Scene.my.kms;
+            print Scene.my.hms;
+            initializePeriodTimer;
+        };
+        density := 2.0000000;
+        airFrictionMult := 1.0000000;
+        controllerAcc := 11.000000;
+        colorHSVA := [25.418098, 0.76438606, 0.76977146, 1.0000000];
+        radius := 0.85000002;
+        angvel := 0.047704816;
+        heteroCollide := false;
+        glued := true;
+        onKey := (e)=>{};
+        showVelocity := false;
+        postStep := (e)=>{};
+        opaqueBorders := true;
+        geomID := 3333;
+        body := 3334;
+        edgeBlur := 0.00000000;
+        angle := -0.71976984;
+        zDepth := 5.0000000;
+        layer := 0
+    };
+};
+
+// main timer, times one iteration
+initializeTimer = () => {
+    Scene.my.timer = Scene.addCircle {
+        inertiaMultiplier := 1.0000000;
+        resources := [];
+        timeToLive := Scene.my.timerTime;
+        textureClamped := [false, false];
+        adhesion := 0.00000000;
+        attractionType := 2;
+        attraction := 0.00000000;
+        texture := "";
+        update := (e)=>{};
+        controllerInvertX := false;
+        controllerInvertY := false;
+        showMomentum := false;
+        vel := [0, 0];
+        restitution := 0.50000000;
+        onCollide := (e)=>{};
+        killer := false;
+        materialVelocity := 0.00000000;
+        showForceArrows := false;
+        controllerReverseXY := false;
+        refractiveIndex := 1.5000000;
+        textureMatrix := [1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000];
+        protractor := false;
+        immortal := false;
+        area := 2.2698009;
+        collideSet := 1;
+        drawBorder := true;
+        reflectiveness := 1.0000000;
+        friction := 0.50000000;
+        entityID := 666;
+        velocityDamping := [0.00000000, 0.00000000, 0.00000000];
+        onClick := (e)=>{};
+        color := [0.76977146, 0.43063679, 0.18136889, 1.0000000];
+        collideWater := true;
+        onSpawn := (e)=>{
+            tryNeighbor;
+        };
+        materialName := "";
+        onHitByLaser := (e)=>{};
+        drawCake := true;
+        pos := [-5, 3];
+        onDie := (e)=>{
+            Scene.my.results = Scene.my.results ++ [Scene.my.first.pos(0)];
+            //print(Scene.my.first.pos(0));
+            //print("Scene.my.neighbor_idx");
+            //print(Scene.my.neighbor_idx);
+            //print("Scene.my.n_neighbors");
+            //print(Scene.my.n_neighbors);
+            (Scene.my.neighbor_idx < Scene.my.n_neighbors) ? {} : {              
+                chooseBestNeighbor;
+                getNeighbors;
+            };
+            deletePerson;
+            initializeTimer;
+            
+        };
+        density := 2.0000000;
+        airFrictionMult := 1.0000000;
+        controllerAcc := 11.000000;
+        colorHSVA := [25.418098, 0.76438606, 0.76977146, 1.0000000];
+        radius := 0.85000002;
+        angvel := 0.047704816;
+        heteroCollide := false;
+        glued := true;
+        onKey := (e)=>{};
+        showVelocity := false;
+        postStep := (e)=>{};
+        opaqueBorders := true;
+        geomID := 3333;
+        body := 3334;
+        edgeBlur := 0.00000000;
+        angle := -0.71976984;
+        zDepth := 5.0000000;
+        layer := 0
+    };
+};
+
+getNeighbors = () => {
+    print("getNeighbors");
+    neighbors = [];
+    for (0, string.length(Scene.my.parameters) - 1, (i, j) => {
+    	//print("i is" + i);  	
+    	new_neighbor = Scene.my.parameters;
+    	temp = (Scene.my.parameters(i) + Scene.my.deltas(i));
+    	new_neighbor2 = updateArr(new_neighbor, i, temp);
+    	//print(new_neighbor2);
+    	neighbors = neighbors ++ [new_neighbor2];
+    	new_neighbor = Scene.my.parameters;
+    	new_neighbor2 = updateArr(new_neighbor, i, (Scene.my.parameters(i) - Scene.my.deltas(i)));
+    	//print(new_neighbor2);
+    	neighbors = neighbors ++ [new_neighbor2];
+    });
+    Scene.my.neighbors = neighbors;
+    Scene.my.results = [];
+    Scene.my.neighbor_idx = 0;
+    Scene.my.n_neighbors = string.length(neighbors);
+}; 
+
+
+tryNeighbor = () => {
+    print("tryNeighbor");
+    i = Scene.my.neighbor_idx;
+    deletePerson;
+    old_parameters = Scene.my.parameters;
+    new_parameters = Scene.my.neighbors(i); 
+    print(new_parameters);   
+    Scene.my.sms = new_parameters(0);
+	Scene.my.smt = new_parameters(1);
+	Scene.my.hms = new_parameters(2);
+	Scene.my.hmt = new_parameters(3);
+	Scene.my.kms = new_parameters(4);
+	Scene.my.kmt = new_parameters(5);
+	//printParameters;
+    initializePerson; 
+    Scene.my.neighbor_idx = Scene.my.neighbor_idx + 1;
+
+};
+
+printParameters = () => {
+	print("Parameters");
+	print("Scene.my.sms " + Scene.my.sms);
+	print("Scene.my.smt " + Scene.my.smt);
+	print("Scene.my.hms " + Scene.my.hms);
+	print("Scene.my.hmt " + Scene.my.hmt);
+	print("Scene.my.kms " + Scene.my.kms);
+	print("Scene.my.kmt " + Scene.my.kmt);
+};
+
+chooseBestNeighbor = () => {
+    bestNeighbor = Scene.my.neighbors(0);
+    bestResult = Scene.my.results(0);
+    for (1, string.length(Scene.my.neighbors), (i, j) => {
+        neighbor = Scene.my.neighbors(i);
+        result = Scene.my.results(i);
+        result > bestResult ? {
+            bestNeighbor = neighbor;
+            bestResult = result;
+        } : {};
+    });
+    Scene.my.parameters = bestNeighbor;
+};
+
 initializePerson;
+getNeighbors;
+initializeTimer;
+initializePeriodTimer;
+print("DONE");

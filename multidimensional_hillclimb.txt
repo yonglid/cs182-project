@@ -1,4 +1,5 @@
 Reflection.ExecuteFile("library.txt");
+Reflection.ExecuteFile("CreateSwimmer.txt");
 
 Scene.my.deltaNeighbor = 0.8;
 Scene.my.testTime = 10;
@@ -12,7 +13,21 @@ Scene.my.neighbor_idx = 0;
 Scene.my.n_neighbors = 2;
 
 
-initializePerson = () => {
+
+initializeWalkerConstants = () => {
+    Scene.my.motorSpeed1 = 1.5;
+    Scene.my.motorSpeed2 = 1.5;
+    Scene.my.motorSpeed3 = 2.6;
+    Scene.my.motorSpeed4 = 1.5;
+    Scene.my.motorSpeed5 = 1.5;
+    Scene.my.motorSpeed6 = 3.1;
+    Scene.my.motorSpeed7 = 4.2;
+    Scene.my.motorSpeed8 = 4.2;
+    Scene.my.motorSpeed9 = 3.1;
+};
+
+
+initializeWalkerPerson = () => {
     Scene.my.current_person = []; 
     print(Scene.my.current_person); 
     first = Scene.addCircle {
@@ -1258,7 +1273,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 1.5707964;
+            motorSpeed := {Scene.my.motorSpeed1};
             entityID := 2032;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1295,7 +1310,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 1.5707964;
+            motorSpeed := {Scene.my.motorSpeed2};
             entityID := 2033;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1332,7 +1347,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 2.6179938;
+            motorSpeed := {Scene.my.motorSpeed3};
             entityID := 2034;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1369,7 +1384,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 1.5707964;
+            motorSpeed := {Scene.my.motorSpeed4};
             entityID := 2035;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1406,7 +1421,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 1.5707964;
+            motorSpeed := {Scene.my.motorSpeed5};
             entityID := 2036;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1443,7 +1458,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 3.1415927;
+            motorSpeed := {Scene.my.motorSpeed6};
             entityID := 2037;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1480,7 +1495,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 4.1887903;
+            motorSpeed := {Scene.my.motorSpeed7};
             entityID := 2038;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1517,7 +1532,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 4.1887903;
+            motorSpeed := {Scene.my.motorSpeed8};
             entityID := 2039;
             onSpawn := (e)=>{};
             autoBrake := false;
@@ -1554,7 +1569,7 @@ initializePerson = () => {
             bendTarget := NaN;
             allowDirectSolve := true;
             hingeConstant := NaN;
-            motorSpeed := 3.1415927;
+            motorSpeed := {Scene.my.motorSpeed9};
             entityID := 2040;
             onSpawn := (e)=>{};
             autoBrake := false;
