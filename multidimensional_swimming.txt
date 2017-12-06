@@ -17,7 +17,7 @@ Scene.my.n_neighbors = 2;
 // possible inputs/parameters: sms, smt, hms, hmt, hmp, kms, kmt, kmp
 initializePerson = () => {
 	Scene.my.current_person = []; 
-
+	
 	first = Scene.addCircle {
 	    inertiaMultiplier := 1.0000000;
 	    resources := [];
