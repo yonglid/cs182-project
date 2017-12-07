@@ -33,7 +33,7 @@ Scene.my.deltas = [Scene.my.deltaSpeed, Scene.my.deltaTorque, Scene.my.deltaSpee
 //initializePerson = (sms, smt, hms, hmt, hmp, kms, kmt) => {
 initializePerson = () => {
 	Scene.my.current_person = []; 
-
+	
 	first = Scene.addCircle {
 	    inertiaMultiplier := 1.0000000;
 	    resources := [];
