@@ -1,30 +1,57 @@
-Reflection.ExecuteFile("library.txt");
-Reflection.ExecuteFile("CreateSwimmer.txt");
+Reflection.ExecuteFile("cs182-project/library.txt");
 
-Scene.my.deltaNeighbor = 0.8;
-Scene.my.testTime = 10;
+Scene.my.outfile = "hillclimb_results.txt";
+
+Scene.my.deltaNeighbor = 1;
+Scene.my.deltaK = 0.2; // Spring constant
 Scene.my.timerTime = 5;
 
-Scene.my.currentSpeed = 1;
-Scene.my.bestTime = 99999;
+Scene.my.bestDist = -99999;
 
 Scene.my.results = [];
 Scene.my.neighbor_idx = 0;
-Scene.my.n_neighbors = 2;
+Scene.my.n_neighbors = 26;
+
+Scene.my.motorSpeed1 = 1.5;
+Scene.my.motorSpeed2 = 1.5;
+Scene.my.motorSpeed3 = 2.6;
+Scene.my.motorSpeed4 = 1.5;
+Scene.my.motorSpeed5 = 1.5;
+Scene.my.motorSpeed6 = 3.1;
+Scene.my.motorSpeed7 = 4.2;
+Scene.my.motorSpeed8 = 4.2;
+Scene.my.motorSpeed9 = 3.1;
+Scene.my.k1 = 0.8;
+Scene.my.k2 = 0.8;
+Scene.my.k3 = 0.8;
+Scene.my.k4 = 0.8;
 
 
+// Simulated Annealing
+Scene.my.t = 0.4;
+Scene.my.deltaT = 0.9; // multiplicative
+Scene.my.t_min = 0.001;
 
-initializeWalkerConstants = () => {
-    Scene.my.motorSpeed1 = 1.5;
-    Scene.my.motorSpeed2 = 1.5;
-    Scene.my.motorSpeed3 = 2.6;
-    Scene.my.motorSpeed4 = 1.5;
-    Scene.my.motorSpeed5 = 1.5;
-    Scene.my.motorSpeed6 = 3.1;
-    Scene.my.motorSpeed7 = 4.2;
-    Scene.my.motorSpeed8 = 4.2;
-    Scene.my.motorSpeed9 = 3.1;
+initializeWalkerConstants = (new_parameters) => {
+    Scene.my.motorSpeed1 = new_parameters(0);
+    Scene.my.motorSpeed2 = new_parameters(1);
+    Scene.my.motorSpeed3 = new_parameters(2);
+    Scene.my.motorSpeed4 = new_parameters(3);
+    Scene.my.motorSpeed5 = new_parameters(4);
+    Scene.my.motorSpeed6 = new_parameters(5);
+    Scene.my.motorSpeed7 = new_parameters(6);
+    Scene.my.motorSpeed8 = new_parameters(7);
+    Scene.my.motorSpeed9 = new_parameters(8);
+    Scene.my.k1 = new_parameters(9);
+    Scene.my.k2 = new_parameters(10);
+    Scene.my.k3 = new_parameters(11);
+    Scene.my.k4 = new_parameters(12);
 };
+
+
+Scene.my.parameters = [Scene.my.motorSpeed1, Scene.my.motorSpeed2, Scene.my.motorSpeed3, Scene.my.motorSpeed4, Scene.my.motorSpeed5, Scene.my.motorSpeed6, Scene.my.motorSpeed7, Scene.my.motorSpeed8, Scene.my.motorSpeed9, Scene.my.k1, Scene.my.k2, Scene.my.k3, Scene.my.k4];
+
+Scene.my.deltas = [Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaNeighbor, Scene.my.deltaK, Scene.my.deltaK, Scene.my.deltaK, Scene.my.deltaK];
 
 
 initializeWalkerPerson = () => {
@@ -1199,6 +1226,7 @@ initializeWalkerPerson = () => {
             polyMeshResolution := [128, 128]
         }];
     Scene.my.current_person = Scene.my.current_person ++ [Scene.addPolygon {
+
             surfaces := [[[0.027088404, 5.9604645e-08], [0.027061224, 0.0013294220], [0.026963234, 0.0026556849], [0.026800871, 0.0039755106], [0.026573420, 0.0052858591], [0.026281595, 0.0065833926], [0.025927305, 0.0078649521], [0.025510073, 0.0091276765], [0.025031805, 0.010368407], [0.024492741, 0.011584342], [0.023894787, 0.012772083], [0.023239136, 0.013928950], [0.022527218, 0.015052557], [0.021761656, 0.016139865], [0.020943642, 0.017188251], [0.020075083, 0.018195271], [0.019158125, 0.019158304], [0.018195152, 0.020075321], [0.017188072, 0.020943940], [0.016139746, 0.021762073], [0.015052319, 0.022527814], [0.013928890, 0.023239255], [0.012771368, 0.023894787], [0.011584044, 0.024492621], [0.010368586, 0.025031567], [0.0091276169, 0.025510252], [0.0078647137, 0.025927365], [0.0065834522, 0.026282012], [0.0052852631, 0.026573360], [0.0039756298, 0.026800752], [0.0026555061, 0.026963532], [0.0013294220, 0.027061343], [0.0000000, 0.027093947], [-0.0013296604, 0.027061343], [-0.0026559830, 0.026963532], [-0.0039761066, 0.026800752], [-0.0052857399, 0.026573360], [-0.0065839291, 0.026282012], [-0.0078644753, 0.025927365], [-0.0091280937, 0.025510252], [-0.010368824, 0.025031567], [-0.011583805, 0.024492621], [-0.012772083, 0.023894787], [-0.013928652, 0.023239255], [-0.015051842, 0.022527814], [-0.016139984, 0.021762073], [-0.017188787, 0.020943940], [-0.018194914, 0.020075321], [-0.019158840, 0.019158304], [-0.020075321, 0.018195271], [-0.020944118, 0.017188251], [-0.021762133, 0.016139865], [-0.022527933, 0.015052557], [-0.023239136, 0.013928950], [-0.023894548, 0.012772083], [-0.024492979, 0.011584342], [-0.025031805, 0.010368407], [-0.025510073, 0.0091276765], [-0.025927544, 0.0078649521], [-0.026281834, 0.0065833926], [-0.026573420, 0.0052858591], [-0.026800871, 0.0039755106], [-0.026963472, 0.0026556849], [-0.027061224, 0.0013294220], [-0.027093887, 5.9604645e-08], [-0.027061224, -0.0013294220], [-0.026963472, -0.0026556253], [-0.026800871, -0.0039754510], [-0.026573420, -0.0052857995], [-0.026281834, -0.0065833330], [-0.025927544, -0.0078649521], [-0.025510073, -0.0091276169], [-0.025031805, -0.010368288], [-0.024492979, -0.011584163], [-0.023894548, -0.012772083], [-0.023239136, -0.013928950], [-0.022527933, -0.015052497], [-0.021762133, -0.016139805], [-0.020944118, -0.017188191], [-0.020075321, -0.018195271], [-0.019158840, -0.019158304], [-0.018194914, -0.020075381], [-0.017188787, -0.020943999], [-0.016139984, -0.021762133], [-0.015051842, -0.022527754], [-0.013928652, -0.023239255], [-0.012772083, -0.023894668], [-0.011583805, -0.024492621], [-0.010368824, -0.025031507], [-0.0091280937, -0.025510132], [-0.0078644753, -0.025927246], [-0.0065839291, -0.026282012], [-0.0052857399, -0.026573300], [-0.0039761066, -0.026800692], [-0.0026559830, -0.026963532], [-0.0013296604, -0.027061224], [0.0000000, -0.027093828], [0.0013294220, -0.027061224], [0.0026555061, -0.026963532], [0.0039756298, -0.026800692], [0.0052852631, -0.026573300], [0.0065834522, -0.026282012], [0.0078647137, -0.025927246], [0.0091276169, -0.025510132], [0.010368586, -0.025031507], [0.011584044, -0.024492621], [0.012771368, -0.023894668], [0.013928890, -0.023239255], [0.015052319, -0.022527754], [0.016139746, -0.021762133], [0.017188072, -0.020943999], [0.018195152, -0.020075381], [0.019158125, -0.019158304], [0.020075083, -0.018195271], [0.020943642, -0.017188191], [0.021761656, -0.016139686], [0.022527218, -0.015052497], [0.023239136, -0.013928950], [0.023894787, -0.012772083], [0.024492741, -0.011584103], [0.025031805, -0.010368288], [0.025510073, -0.0091276169], [0.025927305, -0.0078649521], [0.026281595, -0.0065833330], [0.026573420, -0.0052857995], [0.026800871, -0.0039754510], [0.026963234, -0.0026556253], [0.027061224, -0.0013294220]]];
             inertiaMultiplier := 1.0000000;
             resources := [];
@@ -1873,7 +1901,7 @@ initializeWalkerPerson = () => {
             opaqueBorders := true;
             dampingFactor := 0.20000000;
             size := 0.036326844;
-            constant := 0.80000001;
+            constant := {Scene.my.k1}; //0.80000001;
             texture := "";
             colorHSVA := [270.00000, 0.50999999, 0.83333331, 0.0000000];
             length := 0.10000000;
@@ -1901,7 +1929,7 @@ initializeWalkerPerson = () => {
             opaqueBorders := true;
             dampingFactor := 0.20000000;
             size := 0.036326844;
-            constant := 0.80000001;
+            constant := Scene.my.k2; //0.80000001;
             texture := "";
             colorHSVA := [270.00000, 0.50999999, 0.83333331, 0.0000000];
             length := 0.10000000;
@@ -2123,7 +2151,7 @@ initializeWalkerPerson = () => {
             opaqueBorders := true;
             dampingFactor := 0.10000000;
             size := 0.025994683;
-            constant := 0.80000001;
+            constant := Scene.my.k3; //0.80000001;
             texture := "";
             colorHSVA := [270.00000, 0.50999999, 0.83333331, 0.0000000];
             length := 0.50000000;
@@ -2151,7 +2179,7 @@ initializeWalkerPerson = () => {
             opaqueBorders := true;
             dampingFactor := 0.10000000;
             size := 0.025994683;
-            constant := 0.80000001;
+            constant := Scene.my.k4; //0.80000001;
             texture := "";
             colorHSVA := [270.00000, 0.50999999, 0.83333331, 0.0000000];
             length := 0.50000000;
@@ -2221,13 +2249,14 @@ deletePerson = () => {
         Scene.removeEntity(Scene.my.current_person(i));
     });
 };
+
 initializeTime = () => {
     Scene.my.timer = Scene.addCircle {
         inertiaMultiplier := 1.0000000;
         resources := [];
         timeToLive := Scene.my.timerTime;
         textureClamped := [false, false];
-        adhesion := 0.00000000;
+        adhesion := 7;
         attractionType := 2;
         attraction := 0.00000000;
         texture := "";
@@ -2262,7 +2291,7 @@ initializeTime = () => {
         materialName := "";
         onHitByLaser := (e)=>{};
         drawCake := true;
-        pos := [2, 3];
+        pos := [-5, 3];
         onDie := (e)=>{
             Scene.my.results = Scene.my.results ++ [Scene.my.first.pos(0)];
             print(Scene.my.first.pos(0));
@@ -2275,7 +2304,9 @@ initializeTime = () => {
                 getNeighbors;
             };
             deletePerson;
-            initializeTime;
+            (Scene.my.t < Scene.my.t_min) ? () : {
+                initializeTime; 
+            };
             
         };
         density := 2.0000000;
@@ -2302,15 +2333,34 @@ initializeTime = () => {
 getNeighbors = () => {
     print("getNeighbors");
     neighbors = [];
-    neighbors = neighbors ++ [Scene.my.currentSpeed + Scene.my.deltaNeighbor];
-    neighbors = neighbors ++ [Scene.my.currentSpeed - Scene.my.deltaNeighbor];
-    print("neighbors");
-    print(neighbors(0));
-    print(neighbors(1));
+    for (0, string.length(Scene.my.parameters) - 1, (i, j) => {
+        //print("i is" + i);    
+        new_neighbor = Scene.my.parameters;
+        temp = (Scene.my.parameters(i) + Scene.my.deltas(i));
+        new_neighbor2 = updateArr(new_neighbor, i, temp);
+        //print(new_neighbor2);
+        neighbors = neighbors ++ [new_neighbor2];
+        new_neighbor = Scene.my.parameters;
+        new_neighbor2 = updateArr(new_neighbor, i, (Scene.my.parameters(i) - Scene.my.deltas(i)));
+        //print(new_neighbor2);
+        neighbors = neighbors ++ [new_neighbor2];
+    });
+
     Scene.my.neighbors = neighbors;
     Scene.my.results = [];
     Scene.my.neighbor_idx = 0;
     Scene.my.n_neighbors = string.length(neighbors);
+    p = rand.uniform01;
+    System.WriteToFile(Scene.my.outfile, "t is " + Scene.my.t + " and p is " + p + "\n");
+    p < Scene.my.t ? {
+        rand_neighbor = neighbors(randInt(0, Scene.my.n_neighbors - 1));
+        Scene.my.parameters = rand_neighbor;
+        Scene.my.t = Scene.my.t * Scene.my.deltaT;
+        getNeighbors;
+    } : {
+        Scene.my.t = Scene.my.t * Scene.my.deltaT;
+    };
+    
 }; 
 
 
@@ -2318,9 +2368,11 @@ tryNeighbor = () => {
     print("tryNeighbor");
     i = Scene.my.neighbor_idx;
     deletePerson;
-    Scene.my.currentSpeed = Scene.my.neighbors(i);
-    print(Scene.my.currentSpeed);
-    initializePerson; 
+    //old_parameters = Scene.my.parameters;
+    new_parameters = Scene.my.neighbors(i); 
+    print(new_parameters);   
+    initializeWalkerConstants(new_parameters);
+    initializeWalkerPerson; 
     Scene.my.neighbor_idx = Scene.my.neighbor_idx + 1;
 
 };
@@ -2331,15 +2383,22 @@ chooseBestNeighbor = () => {
     for (1, string.length(Scene.my.neighbors), (i, j) => {
         neighbor = Scene.my.neighbors(i);
         result = Scene.my.results(i);
-        result < bestResult ? {
+        result > bestResult ? {
             bestNeighbor = neighbor;
             bestResult = result;
         } : {};
     });
-    Scene.my.currentSpeed = bestNeighbor;
+    System.WriteToFile(Scene.my.outfile, "bestResult is " + bestResult + " and Scene.my.bestDist is " + Scene.my.bestDist);
+    bestResult > Scene.my.bestDist ? {
+        System.WriteToFile(Scene.my.outfile, "choosing bestResult " + bestResult + "\n");
+        Scene.my.parameters = bestNeighbor; 
+        Scene.my.bestDist = bestResult;
+    } : {
+        System.WriteToFile(Scene.my.outfile, "choosing bestDist " + Scene.my.bestDist + "\n");
+    };
 };
 
-initializePerson; 
+//initializeWalkerPerson; 
 getNeighbors;
 initializeTime; 
 
