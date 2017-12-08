@@ -155,4 +155,9 @@ updateArr = (arr, idx, new_val) => {
     new_arr; // returns new_arr
 };
 
+// calculates e^x 
+exp = (x) => {
+    math.pow(math.e, x);
+};
+
 
