@@ -244,19 +244,18 @@ evoTimer = () => {
     onDie := (e)=>{
       Scene.my.evoUtilities = Scene.my.evoUtilities ++ [[-Scene.my.first.pos(0), Scene.my.itterBot-1]];
       Scene.my.itterBot == 1 ? {
-          averageDist = -average(robotUtilities);
-          printGenNum = Scene.my.maxGenerations - Scene.my.itterGen + 1;
-          System.WriteToFile(Scene.my.outfile, "\n" + "Generation: " + printGenNum + "\n" + "Robots: " + Scene.my.evoBots + "\n" + "Utilities: " + Scene.my.evoUtilities + "\n" + "Average Distance Travelled: " + -averageDist + "\n");
-          print("Completed Generation Number:");
-          generationNum = Scene.my.maxGenerations - Scene.my.itterGen;
-          print(generationNum);
-          geneticCrossover;
-          Scene.my.itterBot = Scene.my.numEvoBots;
-          Scene.my.itterGen = Scene.my.itterGen-1;
-          evoTimer();
+        averageDist = -1 * average(robotUtilities);
+        generationNum = Scene.my.maxGenerations - Scene.my.itterGen;
+        System.WriteToFile(Scene.my.outfile, "\n" + "Generation: " + printGenNum + "\n" + "Robots: " + Scene.my.evoBots + "\n" + "Utilities: " + Scene.my.evoUtilities + "\n" + "Average Distance Travelled: " + averageDist + "\n");
+        print("Completed Generation Number:");
+        print(generationNum);
+        geneticCrossover;
+        Scene.my.itterBot = Scene.my.numEvoBots;
+        Scene.my.itterGen = Scene.my.itterGen-1;
+        evoTimer;
       } : {
         Scene.my.itterBot = Scene.my.itterBot-1;
-        evoTimer();
+        evoTimer;
       }
     };
     density := 2.0000000;
