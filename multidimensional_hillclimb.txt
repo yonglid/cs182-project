@@ -29,7 +29,7 @@ Scene.my.k4 = 0.8;
 
 // Simulated Annealing
 Scene.my.t = 0.3;
-Scene.my.deltaT = 0.8; // multiplicative
+Scene.my.deltaT = 0.9; // multiplicative
 Scene.my.t_min = 0.001;
 
 initializeWalkerConstants = (new_parameters) => {
@@ -78,7 +78,7 @@ initializeWalkerPerson = () => {
         showForceArrows := false;
         controllerReverseXY := false;
         refractiveIndex := 1.5000000;
-        textureMatrix := [1.0000000, 0.0000000, 0.0000000, 0.0000000, 1.0000000, 0.0000000, 0.0000000, 0.0000000, 1.0000000];
+        textureMatrix := [4.773622, 0.0, 0.5, 0.0, 5.0, 0.5, 0.0, 0.0, 1.0];
         protractor := false;
         immortal := true;
         area := 3.1415927;
@@ -2260,7 +2260,7 @@ initializeTime = () => {
         adhesion := 7;
         attractionType := 2;
         attraction := 0.00000000;
-        texture := "";
+        texture := "malan.jpg";
         update := (e)=>{};
         controllerInvertX := false;
         controllerInvertY := false;
@@ -2273,7 +2273,7 @@ initializeTime = () => {
         showForceArrows := false;
         controllerReverseXY := false;
         refractiveIndex := 1.5000000;
-        textureMatrix := [1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000];
+        textureMatrix := [0.57058823, 0.0, 0.5, 0.0, 0.58823526, 0.5, 0.0, 0.0, 1.0];
         protractor := false;
         immortal := false;
         area := 2.2698009;
@@ -2380,38 +2380,18 @@ chooseBestNeighbor = () => {
             bestResult = result;
         } : {};
     });
-    System.WriteToFile(Scene.my.outfile, "bestResult is " + bestResult + " and Scene.my.bestDist is " + Scene.my.bestDist + "\n");
+    //System.WriteToFile(Scene.my.outfile, "bestResult is " + bestResult + " and Scene.my.bestDist is " + Scene.my.bestDist + "\n");
     bestResult > Scene.my.bestDist ? {
-        System.WriteToFile(Scene.my.outfile, "choosing bestResult " + bestResult + "\n");
+        //System.WriteToFile(Scene.my.outfile, "choosing bestResult " + bestResult + "\n");
+        System.WriteToFile(Scene.my.outfile, bestResult + "\n");
         Scene.my.parameters = bestNeighbor; 
         Scene.my.bestDist = bestResult;
     } : {
-
-        expo = (bestResult - Scene.my.bestDist)/Scene.my.t;
-        ap = 1;
-        expo > - 8 && expo < 1 ? {
-            ap = exp(expo);
-        } : {
-            expo > 1 ? {
-                ap = 1;
-            } : {
-                ap = 0.0001;
-            };
-        };
-        p = rand.uniform01;
-        System.WriteToFile(Scene.my.outfile, "ap is " + ap + " p is " + p + "\n");
-        p < ap ? {
-            System.WriteToFile(Scene.my.outfile, "choosing bestResult " + bestResult + "\n");
-            Scene.my.parameters = bestNeighbor; 
-            Scene.my.bestDist = bestResult;
-        } : { // don't accept
-            System.WriteToFile(Scene.my.outfile, "choosing bestDist " + Scene.my.bestDist + "\n");
-        };
-        
-        Scene.my.t = Scene.my.t * Scene.my.deltaT;
+        System.WriteToFile(Scene.my.outfile, Scene.my.bestDist + "\n");
+    };
 
             
-    };
+    
 };
 
 //initializeWalkerPerson; 
