@@ -1,0 +1,45 @@
+
+Reflection.ExecuteFile("EvoLibrary.txt");
+
+// Hyperparameters
+Scene.my.robotIdx = 0;
+Scene.my.timerTime = 5;
+Scene.my.motionStyle = 0;
+Scene.my.hillEvo = 1;
+
+// Global Walker Variables
+Scene.my.motorSpeed1 = 1.5;
+Scene.my.motorSpeed2 = 1.5;
+Scene.my.motorSpeed3 = 2.6;
+Scene.my.motorSpeed4 = 1.5;
+Scene.my.motorSpeed5 = 1.5;
+Scene.my.motorSpeed6 = 3.1;
+Scene.my.motorSpeed7 = 4.2;
+Scene.my.motorSpeed8 = 4.2;
+Scene.my.motorSpeed9 = 3.1;
+Scene.my.k1 = 0.8;
+Scene.my.k2 = 0.8;
+Scene.my.k3 = 0.8;
+Scene.my.k4 = 0.8;
+Scene.my.deltaNeighbor = 2;
+Scene.my.deltaK = 0.2; // Spring constant
+
+// Global Swimmer Variables
+Scene.my.sms = 0;
+Scene.my.smt = 0;
+Scene.my.hms = 0;
+Scene.my.hmt = 0;
+Scene.my.hmp = 0;
+
+// Colors!!!
+Scene.my.color = 0;
+
+Scene.my.hillEvo == 0 ? {
+  hillTimer;
+} : {
+  evoTimer;
+};
+
+Scene.my.motionStyle == 1 ? {
+  initializePeriodTimer;
+} : {};

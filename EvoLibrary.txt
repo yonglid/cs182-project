@@ -1,31 +1,74 @@
 
 Reflection.ExecuteFile("Library.txt");
+Reflection.ExecuteFile("CreateSwimmer.txt");
+Reflection.ExecuteFile("CreateWalker.txt");
+
+// Hyperparameters
+Scene.my.evoBots = [];
+Scene.my.evoUtilities = [];
+Scene.my.numEvoBots = 8;
+Scene.my.maxGenerations = 30;
+Scene.my.itterBot = Scene.my.numEvoBots;
+Scene.my.itterGen = Scene.my.maxGenerations;
+Scene.my.mutationChance = 10;
+Scene.my.outfile = "evo_results.txt";
 
 initializeRobots = () => {
-  myRobots = [];
-  for(0, 19, (i, j) => {
-    myRobots = myRobots ++ [[randomInt(1,50),randomInt(1,50),randomInt(1,50)]]
+  Scene.my.evoBots = [];
+  for(1, Scene.my.numEvoBots, (i, j) => {
+    Scene.my.evoBots = Scene.my.evoBots ++ [robotParameters];
   });
-  myRobots;
 };
 
-getRobotUtilities = (myRobots) => {
-  utilityValues = [];
-  for(0, string.length(myRobots)-1, (i, h) => {
-    utilityValue = 1;
-    for(0, string.length(myRobots(i))-1, (j, k) => {
-      utilityValue = utilityValue * myRobots(i)(j);
-    });
-    utilityValues = utilityValues ++ [[utilityValue, i]];
-  });
-  utilityValues;
+robotParameters = () => {
+  Scene.my.motionStyle == 0 ? {
+    [randWalkPar(0), randWalkPar(1), randWalkPar(2), randWalkPar(3), randWalkPar(4), randWalkPar(5), randWalkPar(6), randWalkPar(7), randWalkPar(8), randWalkPar(9), randWalkPar(10), randWalkPar(11), randWalkPar(12), randWalkPar(13)];
+  } : {
+    [randSwimPar(0), randSwimPar(1), randSwimPar(2), randSwimPar(3), randSwimPar(4), randSwimPar(5)];
+  };
 };
 
-geneticCrossover = (myRobots, robotUtilities) => {
-  newRobotU = mergeSort(robotUtilities);
+randWalkPar = (num) => {
+  num < 5 ? {
+    randomInt(8,32) * 1.0 / 10;
+  } : {
+    num < 9 ? {
+      randomInt(25,50) * 1.0 / 10;
+    } : {
+      num < 13 ? {
+        myVal = randomInt(1,10);
+        myVal = myVal * 1.0 / 20;
+        myVal;
+      } : {
+        randomInt(0,360);
+      }
+    }
+  }
+};
+
+randSwimPar = (num) => {
+  num == 0 || num == 2 ? {
+    randomInt(0,15);
+  } : {
+    num == 1 || num == 3 || num == 5 ? {
+      randomInt(100,10000);
+    } : {
+      num == 4 ? {
+        myVal = randomInt(1,10);
+        myVal = myVal * 1.0 / 20;
+        myVal;
+      } : {
+        randomInt(0,360);
+      }
+    }
+  }
+};
+
+geneticCrossover = () => {
+  newRobotU = mergeSort(Scene.my.evoUtilities);
   newRobots = [];
   newIdList = [0];
-  for(0, string.length(myRobots)-1, (i, j) => {
+  for(0, string.length(Scene.my.evoBots)-1, (i, j) => {
     idList = newIdList;
     curMin = [99999];
     for(0, string.length(idList)-1, (k,l) => {
@@ -46,12 +89,27 @@ geneticCrossover = (myRobots, robotUtilities) => {
         } : {};
       } : {};
     });
-    parent1 = myRobots(newRobotU(curMin(1)(0))(1));
-    parent2 = myRobots(newRobotU(curMin(1)(1))(1));
+    parent1Num = newRobotU(curMin(1)(0))(1);
+    parent2Num = newRobotU(curMin(1)(1))(1);
+    parent1 = Scene.my.evoBots(parent1Num);
+    parent2 = Scene.my.evoBots(parent2Num);
     newBot = [];
+    itter = 0;
     for(0, string.length(parent1)-1, (k, l) => {
-      randomInt(0,4) == 0 ? {
-        newBot = newBot ++ [randomInt(1,50)];
+      itter = itter + 1;
+      oldLen = string.length(newBot);
+      randomInt(1,Scene.my.mutationChance) == 1 ? {
+        randomInt(0,1) == 0 ? {
+          Scene.my.motionStyle == 0 ? {
+            newPar = randWalkPar(k);
+          } : {
+            newPar = randSwimPar(k);
+          };
+          newBot = newBot ++ [newPar];
+        } : {
+          newAv = average([parent1(k), parent2(k)]);
+          newBot = newBot ++ [newAv];
+        };
       } : {
         randomInt(0,1) == 0 ? {
           newBot = newBot ++ [parent1(k)];
@@ -62,5 +120,162 @@ geneticCrossover = (myRobots, robotUtilities) => {
     });
     newRobots = newRobots ++ [newBot];
   });
-  newRobots;
+  Scene.my.evoBots = newRobots;
+  print(Scene.my.evoBots);
+};
+
+makeWalker = (botNum) => {
+  deleteWalker;
+  string.length(Scene.my.evoBots(botNum)) == 14 ? {
+    Scene.my.motorSpeed1 = Scene.my.evoBots(botNum)(0);
+    Scene.my.motorSpeed2 = Scene.my.evoBots(botNum)(1);
+    Scene.my.motorSpeed3 = Scene.my.evoBots(botNum)(2);
+    Scene.my.motorSpeed4 = Scene.my.evoBots(botNum)(3);
+    Scene.my.motorSpeed5 = Scene.my.evoBots(botNum)(4);
+    Scene.my.motorSpeed6 = -Scene.my.evoBots(botNum)(5);
+    Scene.my.motorSpeed7 = Scene.my.evoBots(botNum)(6);
+    Scene.my.motorSpeed8 = Scene.my.evoBots(botNum)(7);
+    Scene.my.motorSpeed9 = Scene.my.evoBots(botNum)(8);
+    Scene.my.k1 = Scene.my.evoBots(botNum)(9);
+    Scene.my.k2 = Scene.my.evoBots(botNum)(10);
+    Scene.my.k3 = -Scene.my.evoBots(botNum)(11);
+    Scene.my.k4 = Scene.my.evoBots(botNum)(12);
+    Scene.my.color = Scene.my.evoBots(botNum)(13);
+  } : {
+    print("Error in robot generation.");
+    print(botNum);
+    print(Scene.my.evoBots(botNum));
+    Scene.my.motorSpeed1 = 0;
+    Scene.my.motorSpeed2 = 0;
+    Scene.my.motorSpeed3 = 0;
+    Scene.my.motorSpeed4 = 0;
+    Scene.my.motorSpeed5 = 0;
+    Scene.my.motorSpeed6 = 0;
+    Scene.my.motorSpeed7 = 0;
+    Scene.my.motorSpeed8 = 0;
+    Scene.my.motorSpeed9 = 0;
+    Scene.my.k1 = 0;
+    Scene.my.k2 = 0;
+    Scene.my.k3 = 0;
+    Scene.my.k4 = 0;
+    Scene.my.color = 0;
+  };
+  initializeWalker;
+  Scene.my.robotIdx = Scene.my.robotIdx + 1;
+};
+
+makeSwimmer = (botNum) => {
+  deleteSwimmer;
+  string.length(Scene.my.evoBots(botNum)) == 6 ? {
+    Scene.my.sms = Scene.my.evoBots(botNum)(0);
+    Scene.my.smt = Scene.my.evoBots(botNum)(1);
+    Scene.my.hms = -Scene.my.evoBots(botNum)(2);
+    Scene.my.hmt = Scene.my.evoBots(botNum)(3);
+    Scene.my.hmp = Scene.my.evoBots(botNum)(4);
+    Scene.my.color = Scene.my.evoBots(botNum)(5);
+  } : {
+    print("Error in robot generation.");
+    print(botNum);
+    print(Scene.my.evoBots(botNum));
+    Scene.my.sms = 0;
+    Scene.my.smt = 0;
+    Scene.my.hms = 0;
+    Scene.my.hmt = 0;
+    Scene.my.hmp = 0;
+    Scene.my.color = 0;
+  };
+  initializeSwimmer;
+  Scene.my.robotIdx = Scene.my.robotIdx + 1;
+};
+
+// Evolution timer; given to each robot to tell it how long to live,
+// how to spawn the next robot, and how to give us results
+evoTimer = () => {
+  Scene.my.timer = Scene.addCircle {
+    inertiaMultiplier := 1.0000000;
+    resources := [];
+    timeToLive := Scene.my.timerTime;
+    textureClamped := [false, false];
+    adhesion := 0.00000000;
+    attractionType := 2;
+    attraction := 0.00000000;
+    texture := "";
+    update := (e)=>{};
+    controllerInvertX := false;
+    controllerInvertY := false;
+    showMomentum := false;
+    vel := [0, 0];
+    restitution := 0.50000000;
+    onCollide := (e)=>{};
+    killer := false;
+    materialVelocity := 0.00000000;
+    showForceArrows := false;
+    controllerReverseXY := false;
+    refractiveIndex := 1.5000000;
+    textureMatrix := [1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000, 0.00000000, 0.00000000, 0.00000000, 1.0000000];
+    protractor := false;
+    immortal := false;
+    area := 2.2698009;
+    collideSet := 1;
+    drawBorder := true;
+    reflectiveness := 1.0000000;
+    friction := 0.50000000;
+    entityID := 666;
+    velocityDamping := [0.00000000, 0.00000000, 0.00000000];
+    onClick := (e)=>{};
+    color := [0.76977146, 0.43063679, 0.18136889, 0.0000000];
+    collideWater := true;
+    onSpawn := (e)=>{
+      Scene.my.itterBot == Scene.my.numEvoBots && Scene.my.itterGen == Scene.my.maxGenerations ? {
+        System.WriteToFile(Scene.my.outfile, "Evolution Results" + "\n" + "Time For Test: " + Scene.my.timerTime + "\n" + "Movement Style: " + Scene.my.motionStyle + "\n" + "Bots Per Generation: " + Scene.my.numEvoBots + "\n" + "Number Of Generations: " + Scene.my.maxGenerations + "\n" + "Mutation Chance: 1/" + Scene.my.mutationChance + "\n");
+        initializeRobots;
+      } : {};
+      itterBotId = Scene.my.itterBot - 1;
+      Scene.my.motionStyle == 0 ? {
+        makeWalker(itterBotId);
+      } : {
+        makeSwimmer(itterBotId);
+      };
+    };
+    materialName := "";
+    onHitByLaser := (e)=>{};
+    drawCake := false;
+    pos := [-5, 3];
+    onDie := (e)=>{
+      Scene.my.evoUtilities = Scene.my.evoUtilities ++ [[-Scene.my.first.pos(0), Scene.my.itterBot-1]];
+      Scene.my.itterBot == 1 ? {
+          averageDist = -average(robotUtilities);
+          printGenNum = Scene.my.maxGenerations - Scene.my.itterGen + 1;
+          System.WriteToFile(Scene.my.outfile, "\n" + "Generation: " + printGenNum + "\n" + "Robots: " + Scene.my.evoBots + "\n" + "Utilities: " + Scene.my.evoUtilities + "\n" + "Average Distance Travelled: " + -averageDist + "\n");
+          print("Completed Generation Number:");
+          generationNum = Scene.my.maxGenerations - Scene.my.itterGen;
+          print(generationNum);
+          geneticCrossover;
+          Scene.my.itterBot = Scene.my.numEvoBots;
+          Scene.my.itterGen = Scene.my.itterGen-1;
+          evoTimer();
+      } : {
+        Scene.my.itterBot = Scene.my.itterBot-1;
+        evoTimer();
+      }
+    };
+    density := 2.0000000;
+    airFrictionMult := 1.0000000;
+    controllerAcc := 11.000000;
+    colorHSVA := [25.418098, 0.76438606, 0.76977146, 0.0000000];
+    radius := 0.85000002;
+    angvel := 0.047704816;
+    heteroCollide := false;
+    glued := true;
+    onKey := (e)=>{};
+    showVelocity := false;
+    postStep := (e)=>{};
+    opaqueBorders := false;
+    geomID := 3333;
+    body := 3334;
+    edgeBlur := 0.00000000;
+    angle := -0.71976984;
+    zDepth := 5.0000000;
+    layer := 0
+  };
 };

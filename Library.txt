@@ -10,8 +10,6 @@ while = (n1, n2, test, code, change) => {
   } : {};
 };
 
-
-
 // A for loop; n1 represents current entry, n2 represents limit,
 // code represents stuff to do
 for = (n1, n2, code) => {
@@ -144,15 +142,18 @@ mergeSort = (array) => {
 };
 
 updateArr = (arr, idx, new_val) => {   
-    new_arr = [];
-    for (0, idx-1, (i, j) =>{
-        new_arr = new_arr ++ [arr(i)];
-    });
-    new_arr = new_arr ++ [new_val];
-    for (idx+1, string.length(arr) - 1, (i, j) => {
-        new_arr = new_arr ++ [arr(i)];
-    });
-    new_arr; // returns new_arr
+  new_arr = [];
+  for (0, idx-1, (i, j) =>{
+    new_arr = new_arr ++ [arr(i)];
+  });
+  new_arr = new_arr ++ [new_val];
+  for (idx+1, string.length(arr) - 1, (i, j) => {
+    new_arr = new_arr ++ [arr(i)];
+  });
+  new_arr; // returns new_arr
 };
 
-
+// calculates e^x 
+exp = (x) => {
+    math.pow(math.e, x);
+};
