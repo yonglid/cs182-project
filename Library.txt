@@ -157,3 +157,8 @@ updateArr = (arr, idx, new_val) => {
 exp = (x) => {
     math.pow(math.e, x);
 };
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6d800b5c29b9552af47310171c2e0659069c2bce
